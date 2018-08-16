@@ -3,19 +3,34 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super()
+
+    this.state= {
+      fetchingData: true,
+      wetherData: {}
+    }
+  }
   render() {
+    const {fetchingData} = this.state
+    console.log(fetchingData)
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to Rachels Weather App</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          {
+            fetchingData ?
+            <img src={logo} className="App-logo" alt="logo" />
+            :
+            <h1> Data is received </h1>
+          }
         </p>
       </div>
     );
   }
 }
 
+{/*<img src={logo} className="App-logo" alt="logo" />*/}
 export default App;
