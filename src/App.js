@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import fetchJsonp from 'fetch-jsonp';
 import logo from './logo.svg';
 import './App.css';
-import CurrentForcast from './components/CurrentForcast';
+import CurrentForecast from './components/CurrentForecast';
 import Navbar from './components/Navbar.js';
 
 const APIURL = `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/`
@@ -13,7 +13,8 @@ class App extends Component {
 
     this.state= {
       fetchingData: true,
-      weatherData: {}
+      weatherData: {},
+      forecastKey: 'currently',
     }
   }
 
@@ -24,13 +25,17 @@ class App extends Component {
       .then(response => response.json())
       .then(weatherData => this.setState({
         fetchingData: false,
-        weatherData }))
+        weatherData
+      }))
     });
   }
 
+  handleForecastChange = forecastKey => this.setState({ forecastKey: forecastKey })
+
   render() {
-    const { fetchingData, weatherData } = this.state
-    console.log("The weather data is here: ", weatherData)
+    const { fetchingData, weatherData, forecastKey } = this.state
+    const forecast = weatherData[forecastKey]
+
     return (
       <div className="App">
         <header className="App-header">
@@ -42,8 +47,8 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             :
             <div>
-              <Navbar/>
-              <CurrentForcast forcast={weatherData.currently} />
+              <Navbar changeForecast={this.handleForecastChange}/>
+              <CurrentForecast forecast={forecast} />
             </div>
           }
         </div>

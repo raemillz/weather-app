@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
-const CurrentForcast = ({ forcast: { apparentTemperature, precipProbability, humidity, summary, temperature, time}}) =>
+const CurrentForecast = ({ forecast: { apparentTemperature, precipProbability, humidity, summary, temperature, time}}) =>
 <div>
-  <h2>Current Forcast</h2>
+  <h2>Current Forecast</h2>
   <div style={{ border: 'solid 1px black', padding: '16px', margin:'16px'}}>
     <h3>{summary}</h3>
     <p>{moment.unix(time).format('MMMM Do YYYY, h:mm:ss a')}</p>
@@ -14,4 +14,4 @@ const CurrentForcast = ({ forcast: { apparentTemperature, precipProbability, hum
   </div>
 </div>
 
-export default CurrentForcast;
+export default CurrentForecast;
