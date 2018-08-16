@@ -51,6 +51,14 @@
   padding: 16px;
 }
 
+.clear {
+  background: red;
+}
+
+.cloudy {
+  background: purple;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
