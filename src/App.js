@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import fetchJsonp from 'fetch-jsonp';
 import logo from './logo.svg';
 import './App.css';
-import CurrentForecast from './components/CurrentForecast';
+import Forecast from './components/Forecast';
+import MinutelyForecast from './components/MinutelyForecast';
+import DailyForecast from './components/DailyForecast';
 import Navbar from './components/Navbar.js';
 
 const APIURL = `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/`
@@ -48,7 +50,20 @@ class App extends Component {
             :
             <div>
               <Navbar changeForecast={this.handleForecastChange}/>
-              <CurrentForecast forecast={forecast} />
+              {forecastKey === 'currently' &&
+                <div>
+                  <h2> Current Forecast</h2>
+                  <Forecast forecast={forecast} />
+                </div>
+              }
+              {forecastKey === 'minutely' && <MinutelyForecast forecastData={forecast.data} />}
+              {forecastKey === 'hourly' &&
+                <div>
+                  <h2> Hourly Forecast </h2>
+                  {forecast.data.map(( forecast, index) => <Forecast key={index} forecast={forecast} />)}
+                </div>
+              }
+              {forecastKey === 'daily' && <DailyForecast forecastData={forecast.data} />}
             </div>
           }
         </div>
