@@ -12,12 +12,12 @@ class App extends Component {
     }
   }
   render() {
-    const {fetchingData} = this.state
+    const { fetchingData } = this.state
     console.log(fetchingData)
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to Rachels Weather App</h1>
+          <h1 className="App-title">Welcome to Rachel's Weather App</h1>
         </header>
         <p className="App-intro">
           {
