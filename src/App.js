@@ -9,6 +9,8 @@ import DailyForecast from './components/DailyForecast';
 import Navbar from './components/Navbar.js';
 
 import { changeRoute } from './actions/routeActions';
+import { stopFetchingData } from './actions/fetchingDataActions';
+
 
 const APIURL = `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/`
 
@@ -17,7 +19,6 @@ class App extends Component {
     super()
 
     this.state= {
-      fetchingData: true,
       weatherData: {},
     }
   }
@@ -27,18 +28,21 @@ class App extends Component {
       const { latitude, longitude } = position.coords
       fetchJsonp(`${APIURL}${latitude},${longitude}`)
       .then(response => response.json())
-      .then(weatherData => this.setState({
-        fetchingData: false,
-        weatherData
-      }))
+      .then(weatherData => {
+        this.setState({
+          fetchingData: false,
+          weatherData
+        }, this.props.stopFetchingData())
+      })
     });
   }
 
   handleRouteChange = routeName => this.props.changeRoute({ routeName: routeName })
 
   render() {
-    const { fetchingData, weatherData, forecastKey } = this.state
-    const forecast = weatherData[forecastKey]
+    const { weatherData, } = this.state
+    const { fetchingData, routeName } = this.props
+    const forecast = weatherData[routeName]
 
     return (
       <div className="App">
@@ -51,21 +55,21 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             :
             <div>
-              <Navbar changeForecast={this.handleRouteChange}/>
-              {forecastKey === 'currently' &&
+              <Navbar changeRoute={this.handleRouteChange}/>
+              {routeName === 'currently' &&
                 <div>
                   <h2> Current Forecast</h2>
                   <Forecast forecast={forecast} />
                 </div>
               }
-              {forecastKey === 'minutely' && <MinutelyForecast forecastData={forecast.data} />}
-              {forecastKey === 'hourly' &&
+              {routeName === 'minutely' && <MinutelyForecast forecastData={forecast.data} />}
+              {routeName === 'hourly' &&
                 <div>
                   <h2> Hourly Forecast </h2>
                   {forecast.data.map(( forecast, index) => <Forecast key={index} forecast={forecast} />)}
                 </div>
               }
-              {forecastKey === 'daily' && <DailyForecast forecastData={forecast.data} />}
+              {routeName === 'daily' && <DailyForecast forecastData={forecast.data} />}
             </div>
           }
         </div>
@@ -74,4 +78,12 @@ class App extends Component {
   }
 }
 
-export default connect(null, { changeRoute })(App);
+export default connect(
+  state => ({
+    fetchingData: state.fetchingData,
+    routeName: state.route.routeName
+  }), {
+    changeRoute,
+    stopFetchingData,
+  }
+)(App);
