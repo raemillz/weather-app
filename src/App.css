@@ -8,7 +8,7 @@
 }
 
 .App-header {
-  background-color: #16a085;
+  background-color: #8e44ad;
   height: 60px;
   padding: 20px;
   color: white;
@@ -25,27 +25,27 @@
 
 .nav-button {
   color: white;
-  background: #f1c40f;
+  background: #3498db;
   margin: 12px;
   padding: 8px;
 }
 
 .nav-button:hover {
-  border: 1px solid #f1c40f;
+  border: 1px solid #3498db;
   color: blue;
   background: white;
 }
 
 .nav-button:focus {
   outline: 0;
-  border: 1px solid #f1c40f;
+  border: 1px solid #3498db;
   color: blue;
   background: white;
 }
 
 .forecast-card {
-  border: solid 1px #e74c3c;
-  background: #e74c3c;
+  border: solid 1px #9b59b6;
+  background: #9b59b6;
   color: white;
   margin: 32px;
   padding: 16px;
