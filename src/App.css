@@ -23,7 +23,11 @@
   padding-top: 20px;
 }
 
-.nav-button {
+.menu {
+  text-align: center;
+}
+
+/* .nav-button {
   color: white;
   background: #3498db;
   margin: 12px;
@@ -41,7 +45,7 @@
   border: 1px solid #3498db;
   color: blue;
   background: white;
-}
+} */
 
 .forecast-card {
   border: solid 1px #9b59b6;
