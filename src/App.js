@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import fetchJsonp from 'fetch-jsonp';
 import logo from './logo.svg';
 import './App.css';
@@ -6,6 +7,8 @@ import Forecast from './components/Forecast';
 import MinutelyForecast from './components/MinutelyForecast';
 import DailyForecast from './components/DailyForecast';
 import Navbar from './components/Navbar.js';
+
+import { changeRoute } from './actions/routeActions';
 
 const APIURL = `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/`
 
@@ -16,7 +19,6 @@ class App extends Component {
     this.state= {
       fetchingData: true,
       weatherData: {},
-      forecastKey: 'currently',
     }
   }
 
@@ -32,7 +34,7 @@ class App extends Component {
     });
   }
 
-  handleForecastChange = forecastKey => this.setState({ forecastKey: forecastKey })
+  handleRouteChange = routeName => this.props.changeRoute({ routeName: routeName })
 
   render() {
     const { fetchingData, weatherData, forecastKey } = this.state
@@ -49,7 +51,7 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             :
             <div>
-              <Navbar changeForecast={this.handleForecastChange}/>
+              <Navbar changeForecast={this.handleRouteChange}/>
               {forecastKey === 'currently' &&
                 <div>
                   <h2> Current Forecast</h2>
@@ -72,4 +74,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(null, { changeRoute })(App);
