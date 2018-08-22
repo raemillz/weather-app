@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import fetchJsonp from 'fetch-jsonp';
 import logo from './logo.svg';
 import './App.css';
 import Forecast from './components/Forecast';
@@ -10,38 +9,19 @@ import Navbar from './components/Navbar.js';
 
 import { changeRoute } from './actions/routeActions';
 import { stopFetchingData } from './actions/fetchingDataActions';
+import { fetchWeatherData } from './actions/weatherDataActions';
 
-
-const APIURL = `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/`
 
 class App extends Component {
-  constructor() {
-    super()
-
-    this.state= {
-      weatherData: {},
-    }
-  }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords
-      fetchJsonp(`${APIURL}${latitude},${longitude}`)
-      .then(response => response.json())
-      .then(weatherData => {
-        this.setState({
-          fetchingData: false,
-          weatherData
-        }, this.props.stopFetchingData())
-      })
-    });
+    this.props.fetchWeatherData()
   }
 
   handleRouteChange = routeName => this.props.changeRoute({ routeName: routeName })
 
   render() {
-    const { weatherData, } = this.state
-    const { fetchingData, routeName } = this.props
+    const { weatherData, fetchingData, routeName } = this.props
     const forecast = weatherData[routeName]
 
     return (
@@ -81,9 +61,11 @@ class App extends Component {
 export default connect(
   state => ({
     fetchingData: state.fetchingData,
-    routeName: state.route.routeName
+    routeName: state.route.routeName,
+    weatherData: state.weatherData
   }), {
     changeRoute,
     stopFetchingData,
+    fetchWeatherData
   }
 )(App);
